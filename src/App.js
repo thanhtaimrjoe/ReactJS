@@ -77,22 +77,22 @@ function App() {
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                   <li>
-                    <a class="dropdown-item" role="button">
+                    <a class="dropdown-item" role="button" href="#">
                       <i class="bi bi-sort-alpha-down"></i> Name A-Z
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" role="button">
-                    <i class="bi bi-sort-alpha-down-alt"></i> Name Z-A
+                    <a class="dropdown-item" role="button" href="#">
+                      <i class="bi bi-sort-alpha-down-alt"></i> Name Z-A
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" role="button">
+                    <a class="dropdown-item" role="button" href="#">
                       Active
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" role="button">
+                    <a class="dropdown-item" role="button" href="#">
                       InActive
                     </a>
                   </li>
