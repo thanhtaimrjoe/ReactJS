@@ -25,30 +25,6 @@ class App extends Component {
     }
   }
 
-  onGenerateData = () => {
-    var tasks = [
-      {
-        id: uuidv4(),
-        name: 'Learning Japanese',
-        status: true,
-      },
-      {
-        id: uuidv4(),
-        name: 'Play football',
-        status: false,
-      },
-      {
-        id: uuidv4(),
-        name: 'Code ReactJS',
-        status: true,
-      }
-    ];
-    this.setState({
-      tasks: tasks
-    });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }
-
   onToggleForm = () => {
     this.setState({
       isDisplayForm: !this.state.isDisplayForm
@@ -61,14 +37,25 @@ class App extends Component {
     })
   }
 
+  onSubmit = (task) => {
+    task.id = uuidv4();
+    var {tasks} = this.state;
+    tasks.push(task);
+    this.setState({
+      tasks: tasks
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
   render() {
     var {tasks, isDisplayForm} = this.state;
-    var elmTaskForm = isDisplayForm ? <TaskForm onCloseForm={this.onCloseForm}/> : '';
+    var elmTaskForm = isDisplayForm ? <TaskForm onSubmit={this.onSubmit} onCloseForm={this.onCloseForm}/> : '';
     return (
       <div className="container">
       <div className="text-center">
         <h1>Job Management</h1>
       </div>
+      <hr/>
       <div className="row">
         <div className={isDisplayForm ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ''}>
           {/* Form */}
@@ -78,8 +65,6 @@ class App extends Component {
           <button type="button" className="btn btn-primary" onClick={this.onToggleForm}>
             <i className="bi bi-plus-lg"></i> Add new job
           </button>
-          <button type="button" className="btn btn-danger ml-5"
-          onClick={this.onGenerateData}>Generate data</button>
           {/* Search - Sort */}
           <div className="row">
             <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
