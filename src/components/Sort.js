@@ -3,9 +3,9 @@ import React, { Component } from "react";
 class Sort extends Component {
   render() {
     return (
-      <div class="dropdown mt-15">
+      <div className="dropdown mt-15">
         <button
-          class="btn btn-primary dropdown-toggle"
+          className="btn btn-primary dropdown-toggle"
           type="button"
           id="dropdownMenuButton1"
           data-bs-toggle="dropdown"
@@ -13,24 +13,24 @@ class Sort extends Component {
         >
           Sort
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li>
-            <a class="dropdown-item" role="button" href="#">
-              <i class="bi bi-sort-alpha-down"></i> Name A-Z
+            <a className="dropdown-item" role="button" href="#">
+              <i className="bi bi-sort-alpha-down"></i> Name A-Z
             </a>
           </li>
           <li>
-            <a class="dropdown-item" role="button" href="#">
-              <i class="bi bi-sort-alpha-down-alt"></i> Name Z-A
+            <a className="dropdown-item" role="button" href="#">
+              <i className="bi bi-sort-alpha-down-alt"></i> Name Z-A
             </a>
           </li>
           <li>
-            <a class="dropdown-item" role="button" href="#">
+            <a className="dropdown-item" role="button" href="#">
               Active
             </a>
           </li>
           <li>
-            <a class="dropdown-item" role="button" href="#">
+            <a className="dropdown-item" role="button" href="#">
               InActive
             </a>
           </li>
