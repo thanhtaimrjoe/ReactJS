@@ -10,26 +10,16 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [],
       isDisplayForm: false,
       taskEditing: null,
       filter: {
         name: "",
         status: -1,
       },
-      sortBy: 'name',
+      sortBy: "name",
       sortValue: 1,
-      keyword: '',
+      keyword: "",
     };
-  }
-
-  componentDidMount() {
-    if (localStorage && localStorage.getItem("tasks")) {
-      var tasks = JSON.parse(localStorage.getItem("tasks"));
-      this.setState({
-        tasks: tasks,
-      });
-    }
   }
 
   findIndex = (id) => {
@@ -75,7 +65,6 @@ class App extends Component {
       var index = this.findIndex(task.id);
       tasks[index] = task;
     } else {
-      console.log("add");
       task.id = uuidv4();
       tasks.push(task);
     }
@@ -136,36 +125,37 @@ class App extends Component {
     this.setState({
       keyword: keyword,
     });
-  }
+  };
 
   onSort = (sortBy, sortValue) => {
     this.setState({
       sortBy: sortBy,
       sortValue: sortValue,
     });
-  }
+  };
 
   render() {
-    var { tasks, isDisplayForm, taskEditing, filter, sortBy, sortValue, keyword } = this.state;
-    if (filter) {
-      if (filter.name) {
-        tasks = tasks.filter((task) => {
-          return task.name.toLowerCase().indexOf(filter.name) !== -1;
-        });
-      }
-      tasks = tasks.filter((task) => {
-        if (filter.status === -1) {
-          return task;
-        } else {
-          return task.status === (filter.status === 1 ? true : false);
-        }
-      });
-    }
-    if (keyword) {
-      tasks = tasks.filter((task) => {
-        return task.name.toLowerCase().indexOf(keyword) !== -1;
-      });
-    }
+    var { isDisplayForm, taskEditing, filter, sortBy, sortValue, keyword } =
+      this.state;
+    // if (filter) {
+    //   if (filter.name) {
+    //     tasks = tasks.filter((task) => {
+    //       return task.name.toLowerCase().indexOf(filter.name) !== -1;
+    //     });
+    //   }
+    //   tasks = tasks.filter((task) => {
+    //     if (filter.status === -1) {
+    //       return task;
+    //     } else {
+    //       return task.status === (filter.status === 1 ? true : false);
+    //     }
+    //   });
+    // }
+    // if (keyword) {
+    //   tasks = tasks.filter((task) => {
+    //     return task.name.toLowerCase().indexOf(keyword) !== -1;
+    //   });
+    // }
     var elmTaskForm = isDisplayForm ? (
       <TaskForm
         onSubmit={this.onSubmit}
@@ -175,19 +165,19 @@ class App extends Component {
     ) : (
       ""
     );
-    if (sortBy === 'name') {
-      tasks.sort((a, b) => {
-        if (a.name > b.name) return sortValue;
-        else if (a.name < b.name) return -sortValue;
-        else return 0;
-      })
-    } else {
-      tasks.sort((a, b) => {
-        if (a.status > b.status) return -sortValue;
-        else if (a.status < b.status) return sortValue;
-        else return 0;
-      })
-    }
+    // if (sortBy === "name") {
+    //   tasks.sort((a, b) => {
+    //     if (a.name > b.name) return sortValue;
+    //     else if (a.name < b.name) return -sortValue;
+    //     else return 0;
+    //   });
+    // } else {
+    //   tasks.sort((a, b) => {
+    //     if (a.status > b.status) return -sortValue;
+    //     else if (a.status < b.status) return sortValue;
+    //     else return 0;
+    //   });
+    // }
     return (
       <div className="container">
         <div className="text-center">
@@ -223,14 +213,17 @@ class App extends Component {
                 <Search onSearch={this.onSearch} />
               </div>
               <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <Sort onSort={this.onSort} sortBy={sortBy} sortValue={sortValue} />
+                <Sort
+                  onSort={this.onSort}
+                  sortBy={sortBy}
+                  sortValue={sortValue}
+                />
               </div>
             </div>
             {/* List */}
             <div className="row">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <TaskList
-                  tasks={tasks}
                   onUpdateStatus={this.onUpdateStatus}
                   onDeleteTask={this.onDeleteTask}
                   onUpdateTask={this.onUpdateTask}
