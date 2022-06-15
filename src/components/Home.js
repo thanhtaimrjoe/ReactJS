@@ -2,7 +2,11 @@ import React, { Component } from "react";
 
 class Home extends Component {
   render() {
-    return <div>This is Home page</div>;
+    return (
+      <div style={{ textAlign: "center" }}>
+        <h1>This is Home page</h1>
+      </div>
+    );
   }
 }
 
