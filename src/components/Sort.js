@@ -1,12 +1,14 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { actSortTask } from "../actions/index";
 
 class Sort extends Component {
   onCLick = (sortBy, sortValue) => {
-    this.props.onSort(sortBy, sortValue);
+    this.props.onSort({ by: sortBy, value: sortValue });
   };
 
   render() {
-    var { sortBy, sortValue } = this.props;
+    var { by, value } = this.props.sort;
     return (
       <div className="dropdown mt-15">
         <button
@@ -22,7 +24,7 @@ class Sort extends Component {
           <li onClick={() => this.onCLick("name", 1)}>
             <a
               className={
-                sortBy === "name" && sortValue === 1
+                by === "name" && value === 1
                   ? "dropdown-item active"
                   : "dropdown-item"
               }
@@ -35,7 +37,7 @@ class Sort extends Component {
           <li onClick={() => this.onCLick("name", -1)}>
             <a
               className={
-                sortBy === "name" && sortValue === -1
+                by === "name" && value === -1
                   ? "dropdown-item active"
                   : "dropdown-item"
               }
@@ -48,7 +50,7 @@ class Sort extends Component {
           <li onClick={() => this.onCLick("status", 1)}>
             <a
               className={
-                sortBy === "status" && sortValue === 1
+                by === "status" && value === 1
                   ? "dropdown-item active"
                   : "dropdown-item"
               }
@@ -61,7 +63,7 @@ class Sort extends Component {
           <li onClick={() => this.onCLick("status", -1)}>
             <a
               className={
-                sortBy === "status" && sortValue === -1
+                by === "status" && value === -1
                   ? "dropdown-item active"
                   : "dropdown-item"
               }
@@ -77,4 +79,16 @@ class Sort extends Component {
   }
 }
 
-export default Sort;
+const mapStateToProps = (state) => {
+  return {
+    sort: state.sort,
+  };
+};
+
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onSort: (sort) => dispatch(actSortTask(sort)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sort);

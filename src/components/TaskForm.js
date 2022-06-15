@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actAddTask } from "../actions/index";
+import { actCloseForm, actSaveTask } from "../actions/index";
 
 class TaskForm extends Component {
   constructor(props) {
@@ -13,24 +13,26 @@ class TaskForm extends Component {
   }
 
   componentDidMount() {
-    var { taskEditing } = this.props;
-    if (taskEditing) {
+    var { itemEditing } = this.props;
+    if (itemEditing) {
       this.setState({
-        id: taskEditing.id,
-        name: taskEditing.name,
-        status: taskEditing.status,
+        id: itemEditing.id,
+        name: itemEditing.name,
+        status: itemEditing.status,
       });
+    } else {
+      this.onClear();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.taskEditing) {
+    if (nextProps && nextProps.itemEditing) {
       this.setState({
-        id: nextProps.taskEditing.id,
-        name: nextProps.taskEditing.name,
-        status: nextProps.taskEditing.status,
+        id: nextProps.itemEditing.id,
+        name: nextProps.itemEditing.name,
+        status: nextProps.itemEditing.status,
       });
-    } else if (!nextProps.taskEditing) {
+    } else if (!nextProps.itemEditing) {
       this.setState({
         id: "",
         name: "",
@@ -57,7 +59,7 @@ class TaskForm extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onAddTask(this.state);
+    this.props.onSaveTask(this.state);
     this.onClear();
     this.onCloseForm();
   };
@@ -70,6 +72,7 @@ class TaskForm extends Component {
   };
 
   render() {
+    if (!this.props.isDisplayForm) return "";
     return (
       <div className="card">
         <div className="card-header">
@@ -125,15 +128,15 @@ class TaskForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasks,
+    isDisplayForm: state.isDisplayForm,
+    itemEditing: state.itemEditing,
   };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onAddTask: (task) => {
-      dispatch(actAddTask(task));
-    },
+    onSaveTask: (task) => dispatch(actSaveTask(task)),
+    onCloseForm: () => dispatch(actCloseForm()),
   };
 };
 
