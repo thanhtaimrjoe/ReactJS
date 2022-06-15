@@ -37,6 +37,10 @@
   }
 }
 
-.color-nav {
-  color: white;
+.customli {
+  background-color: orange;
+}
+
+.active {
+  color: purple !important
 }
