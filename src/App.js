@@ -6,7 +6,7 @@ import routes from "./routes";
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div>
         <Menu />
         <Routes>{this.showContentMenu(routes)}</Routes>
       </div>

@@ -48,6 +48,11 @@ class Menu extends Component {
                   Product
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink to="login" className="nav-link">
+                  Sign In
+                </NavLink>
+              </li>
             </ul>
           </div>
         </div>

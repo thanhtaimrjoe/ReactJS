@@ -5,6 +5,7 @@ import Contact from "./components/Contact";
 import Product from "./components/Product";
 import NotFound from "./components/NotFound";
 import ProductItem from "./components/ProductItem";
+import Login from "./components/Login";
 
 const routes = [
   {
@@ -26,6 +27,10 @@ const routes = [
   {
     path: "product/:name", //name is param's name
     element: () => <ProductItem />,
+  },
+  {
+    path: "login",
+    element: () => <Login />,
   },
   {
     path: "*",
