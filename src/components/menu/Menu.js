@@ -33,7 +33,7 @@ class Menu extends Component {
     if (menus.length > 0) {
       result = menus.map((menu, index) => {
         return (
-          <li className="nav-item">
+          <li key={index} className="nav-item">
             <NavLink
               to={menu.to}
               className={({ isActive }) =>

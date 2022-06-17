@@ -1,41 +1,56 @@
 import React, { Component } from "react";
 import ProductList from "../../components/productList/ProductList";
 import ProductItem from "../../components/productItem/ProductItem";
+import { connect } from "react-redux";
+import callAPI from "../../utils/APICaller";
+import { Link } from "react-router-dom";
 
 class ProductListPage extends Component {
-  render() {
-    var products = [
-      {
-        id: 1,
-        name: "Iphone 13",
-        price: 1200,
-        status: true,
-      },
-      {
-        id: 2,
-        name: "Iphone 13",
-        price: 1200,
-        status: true,
-      },
-      {
-        id: 3,
-        name: "Iphone 13",
-        price: 1200,
-        status: true,
-      },
-      {
-        id: 4,
-        name: "Iphone 13",
-        price: 1200,
-        status: true,
-      },
-    ];
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+    };
+  }
 
+  componentDidMount() {
+    callAPI("products", "GET", null).then((res) =>
+      this.setState({ products: res.data })
+    );
+  }
+
+  onDelete = (id) => {
+    var { products } = this.state;
+    callAPI(`products/${id}`, "DELETE", null).then((res) => {
+      if (res.status === 200) {
+        var index = this.findIndex(products, id);
+        if (index !== -1) {
+          products.splice(index, 1);
+          this.setState({
+            products: products,
+          });
+        }
+      }
+    });
+  };
+
+  findIndex = (products, id) => {
+    var result = -1;
+    products.map((product, index) => {
+      if (product.id === id) {
+        result = index;
+      }
+    });
+    return result;
+  };
+
+  render() {
+    var { products } = this.state;
     return (
       <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <button type="button" className="btn btn-info my-3">
+        <Link to="/product/add" className="btn btn-info my-3">
           Add new product
-        </button>
+        </Link>
         <ProductList>{this.showProducts(products)}</ProductList>
       </div>
     );
@@ -44,11 +59,24 @@ class ProductListPage extends Component {
     var result = null;
     if (products.length > 0) {
       result = products.map((product, index) => {
-        return <ProductItem key={index} index={index} product={product} />;
+        return (
+          <ProductItem
+            key={index}
+            index={index}
+            product={product}
+            onDelete={this.onDelete}
+          />
+        );
       });
     }
     return result;
   };
 }
 
-export default ProductListPage;
+const mapStateToProps = (state) => {
+  return {
+    products: state.products,
+  };
+};
+
+export default connect(mapStateToProps, null)(ProductListPage);
