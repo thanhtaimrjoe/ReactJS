@@ -32,10 +32,12 @@ const ProductActionPage = () => {
   }, []);
 
   useEffect(() => {
-    setID(paramID);
-    setName(product.name);
-    setPrice(product.price);
-    setStatus(product.status);
+    if (paramID) {
+      setID(paramID);
+      setName(product.name);
+      setPrice(product.price);
+      setStatus(product.status);
+    }
   }, [product]);
 
   const generateProductID = (length) => {
