@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "../constants/ActionTypes";
+import { API_URL } from "../constants/Config";
 
 export default async function callAPI(endpoint, method = "GET", body) {
   try {
