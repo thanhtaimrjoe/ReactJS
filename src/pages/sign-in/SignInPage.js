@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { actCheckUser } from "../../actions/user";
+import { actCheckUserRequest, actClearUser } from "../../actions/user";
 
 function SignInPage(props) {
   const [username, setUsername] = useState("");
@@ -13,13 +13,17 @@ function SignInPage(props) {
   //redux
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const checkUser = (user) => dispatch(actCheckUser(user));
+  const checkUser = (user) => dispatch(actCheckUserRequest(user));
+  const clearUser = () => dispatch(actClearUser());
 
   useEffect(() => {
-    console.log(user);
     if (user.username && user.password) {
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/home", { replace: true });
+    }
+    if (user === "Not Found") {
+      window.confirm("The Username or Password is Incorrect");
+      clearUser();
     }
   }, [user]);
 

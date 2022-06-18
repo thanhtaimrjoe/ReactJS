@@ -31,3 +31,12 @@ export async function checkUser(collectionName, user) {
     return "Not Found";
   }
 }
+
+export async function fetchAllCategory(collectionName) {
+  const db = getFirestore(app);
+  const col = collection(db, collectionName);
+  const snapshot = await getDocs(col);
+  const result = snapshot.docs.map((doc) => doc.data());
+  console.log("result", result);
+  return result;
+}
