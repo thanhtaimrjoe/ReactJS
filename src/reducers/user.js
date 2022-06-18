@@ -1,5 +1,5 @@
 import { GET_USER } from "../constants/ActionTypes";
-var initialState = [];
+var initialState = {};
 
 const myReducers = (state = initialState, action) => {
   switch (action.type) {

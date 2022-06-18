@@ -1,11 +1,10 @@
 import { GET_USER } from "../constants/ActionTypes";
-import getAllDocsByCollection from "../utils/firebaseAction";
+import { checkUser } from "../utils/firebaseAction";
 
-export const actFetchUserRequest = () => {
+export const actCheckUser = (user) => {
   return async (dispatch) => {
-    const colList = await getAllDocsByCollection("category");
-    console.log(colList);
-    dispatch(actFetchUser(colList));
+    const result = await checkUser("user", user);
+    dispatch(actFetchUser(result));
   };
 };
 

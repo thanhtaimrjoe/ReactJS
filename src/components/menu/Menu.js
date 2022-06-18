@@ -1,50 +1,45 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const menus = [
   {
     name: "Category",
+    to: "/home",
+  },
+  {
+    name: "Product",
+    to: "/product-list",
   },
 ];
 
 function Menu(props) {
+  const showMenus = (menus) => {
+    var result = null;
+    if (menus.length > 0) {
+      result = menus.map((menu, index) => {
+        return (
+          <li key={index} className="nav-item">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+              to={menu.to}
+            >
+              {menu.name}
+            </NavLink>
+          </li>
+        );
+      });
+    }
+    return result;
+  };
+
   return (
-    <nav class="navbar navbar-expand-lg bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          Navbar
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Features
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Pricing
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
-            </li>
-          </ul>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div className="container-fluid">
+        <a className="navbar-brand">Yamabi</a>
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav">{showMenus(menus)}</ul>
         </div>
       </div>
     </nav>

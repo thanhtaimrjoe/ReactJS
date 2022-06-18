@@ -3,9 +3,9 @@ import Menu from "../../components/menu/Menu";
 
 function ProductPage(props) {
   return (
-    <div class="container">
+    <div className="container">
       <Menu />
-      <table class="table table-striped table-hover">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th>Product</th>

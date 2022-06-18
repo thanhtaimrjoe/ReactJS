@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { actFetchUserRequest } from "./actions/user";
+import routes from "./routes";
+import { Routes, Route } from "react-router-dom";
 
 function App(props) {
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  // const fetchUserRequest = () => dispatch(actFetchUserRequest());
+  const showContents = (routes) => {
+    var result = null;
+    if (routes.length > 0) {
+      result = routes.map((route, index) => {
+        return (
+          <Route key={index} path={route.path} element={route.element()} />
+        );
+      });
+    }
+    return <Routes>{result}</Routes>;
+  };
 
-  // useEffect(() => {
-  //   fetchUserRequest();
-  //   console.log(user);
-  // }, []);
-
-  return <div class="container"></div>;
+  return <div>{showContents(routes)}</div>;
 }
 
 export default App;
