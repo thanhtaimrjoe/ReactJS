@@ -2,190 +2,79 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Menu from "../../components/menu/Menu";
 import { actFetchProductInforByIDRequest } from "../../actions/product";
+import { actFetchEpisodesRequest } from "../../actions/episode";
+import { actFetchCharactersRequest } from "../../actions/character";
 import { useDispatch, useSelector } from "react-redux";
+import EpisodeList from "../../components/episode-list/EpisodeList";
+import EpisodeItem from "../../components/episode-item/EpisodeItem";
+import CharacterItem from "../../components/character-item/CharacterItem";
+import CharacterList from "../../components/character-list/CharacterList";
 
 function ProductDetailPage(props) {
   //router
   var params = useParams();
   //redux
   const product = useSelector((state) => state.product);
+  const episodes = useSelector((state) => state.episodes);
+  const characters = useSelector((state) => state.characters);
   const dispatch = useDispatch();
   const fetchProductInfo = (productID) =>
     dispatch(actFetchProductInforByIDRequest(productID));
+  const fetchEpisodes = (productID) =>
+    dispatch(actFetchEpisodesRequest(productID));
+  const fetchCharacters = (productID) =>
+    dispatch(actFetchCharactersRequest(productID));
 
   useEffect(() => {
     fetchProductInfo(params.id);
+    fetchEpisodes(params.id);
+    fetchCharacters(params.id);
   }, []);
+
+  const showEpisodes = () => {
+    var result = null;
+    if (episodes.length > 0) {
+      result = episodes.map((episode, index) => {
+        return <EpisodeItem key={index} episode={episode} />;
+      });
+    }
+    return result;
+  };
+
+  const showCharacters = () => {
+    var result = null;
+    if (characters.length > 0) {
+      result = characters.map((character, index) => {
+        return <CharacterItem key={index} character={character} />;
+      });
+    }
+    return result;
+  };
+
   return (
     <div>
       <Menu />
       <div className="d-flex flex-column align-items-center mt-5">
         {/* Card */}
-        <div className="card mb-5" style={{ maxWidth: "700px" }}>
+        <div className="card mb-5" style={{ width: "1000px" }}>
           <div className="row g-0">
-            <div className="col-md-4">
+            <div className="col-md-3">
               <img
                 src={product.image}
                 className="img-fluid rounded-start"
                 alt="..."
               />
             </div>
-            <div className="col-md-8">
+            <div className="col-md-9">
               <div className="card-body">
-                <h5 className="card-title">{product.name}</h5>
+                <h5 className="card-title fw-bold">{product.name}</h5>
                 <p className="card-text">{product.overview}</p>
-                <p className="card-text">
-                  <small className="text-muted">Last updated 3 mins ago</small>
-                </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="container mb-4">
-          <p className="h4 mb-3">Episode list</p>
-          <div
-            className="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
-            style={{ backgroundColor: "yellow" }}
-          >
-            <div className="col">
-              <div class="card" style={{ width: "12rem" }}>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/yama-98f64.appspot.com/o/products%2F95d07660-e64d-11ec-98ae-c91202800daa?alt=media&token=ed69a95a-2968-4469-a535-2528eaff1bb4"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Price: 100$</p>
-                  <button type="button" class="btn btn-primary">
-                    Edit episode
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div class="card" style={{ width: "12rem" }}>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/yama-98f64.appspot.com/o/products%2F95d07660-e64d-11ec-98ae-c91202800daa?alt=media&token=ed69a95a-2968-4469-a535-2528eaff1bb4"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Price: 100$</p>
-                  <button type="button" class="btn btn-primary">
-                    Edit episode
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div class="card" style={{ width: "12rem" }}>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/yama-98f64.appspot.com/o/products%2F95d07660-e64d-11ec-98ae-c91202800daa?alt=media&token=ed69a95a-2968-4469-a535-2528eaff1bb4"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Price: 100$</p>
-                  <button type="button" class="btn btn-primary">
-                    Edit episode
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div class="card" style={{ width: "12rem" }}>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/yama-98f64.appspot.com/o/products%2F95d07660-e64d-11ec-98ae-c91202800daa?alt=media&token=ed69a95a-2968-4469-a535-2528eaff1bb4"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Price: 100$</p>
-                  <button type="button" class="btn btn-primary">
-                    Edit episode
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Characters */}
-        <div className="container mb-4">
-          <p className="h4 mb-3">Character list</p>
-          <div
-            className="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
-            style={{ backgroundColor: "yellow" }}
-          >
-            <div className="col">
-              <div class="card" style={{ width: "12rem" }}>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/yama-98f64.appspot.com/o/products%2F95d07660-e64d-11ec-98ae-c91202800daa?alt=media&token=ed69a95a-2968-4469-a535-2528eaff1bb4"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Price: 100$</p>
-                  <button type="button" class="btn btn-primary">
-                    Edit episode
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div class="card" style={{ width: "12rem" }}>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/yama-98f64.appspot.com/o/products%2F95d07660-e64d-11ec-98ae-c91202800daa?alt=media&token=ed69a95a-2968-4469-a535-2528eaff1bb4"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Price: 100$</p>
-                  <button type="button" class="btn btn-primary">
-                    Edit episode
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div class="card" style={{ width: "12rem" }}>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/yama-98f64.appspot.com/o/products%2F95d07660-e64d-11ec-98ae-c91202800daa?alt=media&token=ed69a95a-2968-4469-a535-2528eaff1bb4"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Price: 100$</p>
-                  <button type="button" class="btn btn-primary">
-                    Edit episode
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div class="card" style={{ width: "12rem" }}>
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/yama-98f64.appspot.com/o/products%2F95d07660-e64d-11ec-98ae-c91202800daa?alt=media&token=ed69a95a-2968-4469-a535-2528eaff1bb4"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Price: 100$</p>
-                  <button type="button" class="btn btn-primary">
-                    Edit episode
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <EpisodeList>{showEpisodes()}</EpisodeList>
+        <CharacterList>{showCharacters()}</CharacterList>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 
 function ProductItem(props) {
   const { index, product } = props;
@@ -9,7 +8,12 @@ function ProductItem(props) {
       <td>{product.categoryName}</td>
       <td>{product.productID}</td>
       <td>
-        <NavLink to={`/product/${product.productID}`}>{product.name}</NavLink>
+        <a
+          href={`/product/${product.productID}`}
+          style={{ textDecoration: "none" }}
+        >
+          {product.name}
+        </a>
       </td>
     </tr>
   );
