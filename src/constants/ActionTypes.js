@@ -1,3 +1,5 @@
 export const GET_USER = "GET_USER";
 export const CLEAR_USER = "CLEAR_USER";
 export const FETCH_CATEGORIES = "FETCH_CATEGORIES";
+export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
+export const FETCH_PRODUCT_INFO = "FETCH_PRODUCT_INFO";

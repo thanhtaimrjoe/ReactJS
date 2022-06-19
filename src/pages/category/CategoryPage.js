@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import Menu from "../../components/menu/Menu";
 import { actFetchCategoriesRequest } from "../../actions/category";
 import { useDispatch, useSelector } from "react-redux";
+import CategoryItem from "../../components/category-item/CategoryItem";
+import CategoryList from "../../components/category-list/CategoryList";
 
 function CategoryPage(props) {
   //redux
@@ -17,13 +19,7 @@ function CategoryPage(props) {
     var result = null;
     if (categories.length > 0) {
       result = categories.map((category, index) => {
-        return (
-          <tr>
-            <td>{index + 1}</td>
-            <td>{category.id}</td>
-            <td>{category.name}</td>
-          </tr>
-        );
+        return <CategoryItem key={index} index={index} category={category} />;
       });
     }
     return result;
@@ -37,18 +33,7 @@ function CategoryPage(props) {
           <button type="button" className="btn btn-primary mb-3">
             Add new category
           </button>
-          <div>
-            <table className="table table-striped table-hover border">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>ID</th>
-                  <th>Name</th>
-                </tr>
-              </thead>
-              <tbody>{showCategories()}</tbody>
-            </table>
-          </div>
+          <CategoryList>{showCategories()}</CategoryList>
         </div>
       </div>
     </div>
