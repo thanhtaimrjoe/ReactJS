@@ -4,12 +4,12 @@ function EpisodeItem(props) {
   var { episode } = props;
   return (
     <div className="col mb-3">
-      <div class="card" style={{ width: "15rem" }}>
-        <img src={episode.image} class="card-img-top" alt="..." />
-        <div class="card-body">
-          <h5 class="card-title">{episode.name}</h5>
-          <p class="card-text">Price: {episode.price}$</p>
-          <button type="button" class="btn btn-primary">
+      <div className="card" style={{ width: "15rem" }}>
+        <img src={episode.image} className="card-img-top" alt="..." />
+        <div className="card-body">
+          <h5 className="card-title">{episode.name}</h5>
+          <p className="card-text">Price: {episode.price}$</p>
+          <button type="button" className="btn btn-primary">
             Edit episode
           </button>
         </div>

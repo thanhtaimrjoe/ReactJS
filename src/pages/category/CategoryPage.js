@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import Menu from "../../components/menu/Menu";
-import { actFetchCategoriesRequest } from "../../actions/category";
+import {
+  actFetchCategoriesRequest,
+  actUpdateCategoryRequest,
+} from "../../actions/category";
 import { useDispatch, useSelector } from "react-redux";
 import CategoryItem from "../../components/category-item/CategoryItem";
 import CategoryList from "../../components/category-list/CategoryList";
@@ -10,16 +13,29 @@ function CategoryPage(props) {
   const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   const fetchCategories = () => dispatch(actFetchCategoriesRequest());
+  const updateCategory = (category) =>
+    dispatch(actUpdateCategoryRequest(category));
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
+  const onEditCategoryInfo = (category, file) => {
+    updateCategory(category, file);
+  };
+
   const showCategories = () => {
     var result = null;
     if (categories.length > 0) {
       result = categories.map((category, index) => {
-        return <CategoryItem key={index} index={index} category={category} />;
+        return (
+          <CategoryItem
+            key={index}
+            index={index}
+            category={category}
+            onEditCategoryInfo={onEditCategoryInfo}
+          />
+        );
       });
     }
     return result;

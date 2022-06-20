@@ -15,6 +15,11 @@ function ProductItem(props) {
           {product.name}
         </a>
       </td>
+      <td>
+        <button type="button" className="btn btn-primary">
+          See detail
+        </button>
+      </td>
     </tr>
   );
 }

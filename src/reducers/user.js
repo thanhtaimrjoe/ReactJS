@@ -1,5 +1,6 @@
 import { CLEAR_USER, GET_USER } from "../constants/ActionTypes";
-var initialState = {};
+var data = JSON.parse(localStorage.getItem("user"));
+var initialState = data ? data : {};
 
 const myReducers = (state = initialState, action) => {
   switch (action.type) {
