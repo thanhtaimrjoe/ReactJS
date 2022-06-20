@@ -23,7 +23,7 @@ function CategoryModal(props) {
       setName(value);
     }
     if (name === "image") {
-      setImage(URL.createObjectURL(value));
+      setImage(value);
     }
   };
 
@@ -78,7 +78,7 @@ function CategoryModal(props) {
                   onChange={onChange}
                 ></input>
                 <img
-                  src={image ? image : categoryInfo.image}
+                  src={image ? URL.createObjectURL(image) : categoryInfo.image}
                   className="img-thumbnail"
                   alt="..."
                   style={{ width: "200px" }}

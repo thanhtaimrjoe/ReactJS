@@ -8,7 +8,13 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 export async function getAllDocsByCollection(collectionName) {
   const db = getFirestore(app);
@@ -101,24 +107,19 @@ export async function fetchCharactersByID(collectionName, productID) {
   return result;
 }
 
-function uploadImageToStorage(file, fileName) {
+async function uploadImageToStorage(file, fileName) {
+  var result = null;
   const storage = getStorage();
-  const storageRef = ref(storage, fileName);
-
-  // 'file' comes from the Blob or File API
-  uploadBytes(storageRef, "/categories").then((snapshot) => {
-    console.log(snapshot);
-    console.log("Uploaded a blob or file!");
-    getDownloadURL(snapshot.ref).then((downloadURL) => {
-      console.log("File available at", downloadURL);
-    });
-  });
+  const storageRef = ref(storage, `/categories/${fileName}`);
+  const snapshot = await uploadBytes(storageRef, file);
+  result = getDownloadURL(snapshot.ref);
+  return result;
 }
 
 export async function updateCategory(collectionName, category, file) {
   const db = getFirestore(app);
   //upload to storage
-  uploadImageToStorage(file, category.id);
+  var result = await uploadImageToStorage(file, category.id);
   const ref = doc(db, collectionName, category.docID);
   await updateDoc(ref, category);
 }

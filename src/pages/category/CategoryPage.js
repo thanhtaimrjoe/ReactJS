@@ -13,8 +13,8 @@ function CategoryPage(props) {
   const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   const fetchCategories = () => dispatch(actFetchCategoriesRequest());
-  const updateCategory = (category) =>
-    dispatch(actUpdateCategoryRequest(category));
+  const updateCategory = (category, file) =>
+    dispatch(actUpdateCategoryRequest(category, file));
 
   useEffect(() => {
     fetchCategories();
