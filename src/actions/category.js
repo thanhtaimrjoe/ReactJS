@@ -1,5 +1,13 @@
-import { FETCH_CATEGORIES, UPDATE_CATEGORY } from "../constants/ActionTypes";
-import { fetchAllCategory, updateCategory } from "../utils/firebaseAction";
+import {
+  ADD_NEW_CATEGORY,
+  FETCH_CATEGORIES,
+  UPDATE_CATEGORY,
+} from "../constants/ActionTypes";
+import {
+  addNewCategory,
+  fetchAllCategory,
+  updateCategory,
+} from "../utils/firebaseAction";
 
 export const actFetchCategoriesRequest = () => {
   return async (dispatch) => {
@@ -25,5 +33,19 @@ export const actUpdateCategoryRequest = (category, file) => {
 export const actUpdateCategory = () => {
   return {
     type: UPDATE_CATEGORY,
+  };
+};
+
+export const actAddNewCategoryRequest = (category, file) => {
+  return async (dispatch) => {
+    var newCategory = await addNewCategory("category", category, file);
+    dispatch(actAddNewCategory(newCategory));
+  };
+};
+
+export const actAddNewCategory = (newCategory) => {
+  return {
+    type: ADD_NEW_CATEGORY,
+    newCategory,
   };
 };

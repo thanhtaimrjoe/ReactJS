@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function CategoryModal(props) {
+  const [id, setID] = useState("");
   const [name, setName] = useState("");
   const [image, setImage] = useState();
   var { categoryInfo } = props;
 
   useEffect(() => {
     if (categoryInfo) {
+      setID(categoryInfo.id);
       setName(categoryInfo.name);
     }
   }, []);
@@ -19,6 +22,9 @@ function CategoryModal(props) {
     const target = event.target;
     const name = target.name;
     const value = target.type === "file" ? target.files[0] : target.value;
+    if (name === "id") {
+      setID(value);
+    }
     if (name === "name") {
       setName(value);
     }
@@ -27,10 +33,22 @@ function CategoryModal(props) {
     }
   };
 
+  const onGenerateID = () => {
+    setID(uuidv4());
+  };
+
   const onSave = (event) => {
     event.preventDefault();
-    categoryInfo.name = name;
-    props.onSave(categoryInfo, image);
+    if (categoryInfo) {
+      categoryInfo.name = name;
+      props.onSave(categoryInfo, image);
+    } else {
+      var category = {
+        id: id,
+        name: name,
+      };
+      props.onSave(category, image);
+    }
   };
 
   return (
@@ -52,12 +70,24 @@ function CategoryModal(props) {
             <div className="modal-body">
               <div className="mb-3">
                 <label className="col-form-label">ID:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={categoryInfo.id}
-                  disabled
-                />
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="id"
+                    value={id}
+                    disabled
+                  />
+                  {!categoryInfo && (
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={onGenerateID}
+                    >
+                      Generate
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="mb-3">
                 <label className="col-form-label">Name:</label>
@@ -77,12 +107,22 @@ function CategoryModal(props) {
                   name="image"
                   onChange={onChange}
                 ></input>
-                <img
-                  src={image ? URL.createObjectURL(image) : categoryInfo.image}
-                  className="img-thumbnail"
-                  alt="..."
-                  style={{ width: "200px" }}
-                />
+                {categoryInfo && !image && (
+                  <img
+                    src={categoryInfo.image}
+                    className="img-thumbnail"
+                    alt="..."
+                    style={{ width: "200px" }}
+                  />
+                )}
+                {image && (
+                  <img
+                    src={URL.createObjectURL(image)}
+                    className="img-thumbnail"
+                    alt="..."
+                    style={{ width: "200px" }}
+                  />
+                )}
               </div>
             </div>
             <div className="modal-footer">

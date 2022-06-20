@@ -1,5 +1,6 @@
 import { app } from "./firebase";
 import {
+  addDoc,
   collection,
   doc,
   getDocs,
@@ -125,11 +126,23 @@ function deleteImageFromStorage(imgURL) {
 
 export async function updateCategory(collectionName, category, file) {
   const db = getFirestore(app);
-  //delete old image from storage
-  deleteImageFromStorage(category.image);
+  if (file) {
+    //delete old image from storage
+    deleteImageFromStorage(category.image);
+    //upload to storage
+    const imageURL = await uploadImageToStorage(file);
+    category.image = imageURL;
+  }
+  const ref = doc(db, collectionName, category.docID);
+  await updateDoc(ref, category);
+}
+
+export async function addNewCategory(collectionName, category, file) {
+  const db = getFirestore(app);
   //upload to storage
   const imageURL = await uploadImageToStorage(file);
   category.image = imageURL;
-  const ref = doc(db, collectionName, category.docID);
-  await updateDoc(ref, category);
+  const ref = collection(db, collectionName);
+  await addDoc(ref, category);
+  return category;
 }
