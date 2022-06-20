@@ -9,12 +9,13 @@ import {
   where,
 } from "firebase/firestore";
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
   uploadBytes,
-  uploadBytesResumable,
 } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 
 export async function getAllDocsByCollection(collectionName) {
   const db = getFirestore(app);
@@ -107,19 +108,28 @@ export async function fetchCharactersByID(collectionName, productID) {
   return result;
 }
 
-async function uploadImageToStorage(file, fileName) {
+async function uploadImageToStorage(file) {
   var result = null;
   const storage = getStorage();
-  const storageRef = ref(storage, `/categories/${fileName}`);
+  const storageRef = ref(storage, `/categories/${uuidv4()}`);
   const snapshot = await uploadBytes(storageRef, file);
   result = getDownloadURL(snapshot.ref);
   return result;
 }
 
+function deleteImageFromStorage(imgURL) {
+  const storage = getStorage();
+  const storageRef = ref(storage, imgURL);
+  deleteObject(storageRef);
+}
+
 export async function updateCategory(collectionName, category, file) {
   const db = getFirestore(app);
+  //delete old image from storage
+  deleteImageFromStorage(category.image);
   //upload to storage
-  var result = await uploadImageToStorage(file, category.id);
+  const imageURL = await uploadImageToStorage(file);
+  category.image = imageURL;
   const ref = doc(db, collectionName, category.docID);
   await updateDoc(ref, category);
 }
