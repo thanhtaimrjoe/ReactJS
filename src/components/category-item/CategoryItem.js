@@ -1,23 +1,14 @@
-import React, { useState } from "react";
-import CategoryModal from "../modal/CategoryModal";
+import React from "react";
 
 function CategoryItem(props) {
   const { index, category } = props;
-  const [categoryInfo, setCategoryInfo] = useState();
-  const [showModal, setShowModal] = useState(false);
 
-  const onShowCategoryInfo = (category) => {
-    setCategoryInfo(category);
-    setShowModal(true);
+  const onShowCategoryInfo = () => {
+    props.onShowCategoryInfo(category);
   };
 
-  const onSave = (category, file) => {
-    props.onEditCategoryInfo(category, file);
-    setShowModal(false);
-  };
-
-  const onCloseForm = () => {
-    setShowModal(false);
+  const onDeleteCategory = () => {
+    props.onDeleteCategory(category);
   };
 
   return (
@@ -28,20 +19,18 @@ function CategoryItem(props) {
       <td>
         <button
           type="button"
-          className="btn btn-primary"
-          onClick={() => onShowCategoryInfo(category)}
+          className="btn btn-warning me-2"
+          onClick={onShowCategoryInfo}
         >
-          See detail
+          Edit
         </button>
-        {showModal ? (
-          <CategoryModal
-            categoryInfo={categoryInfo}
-            onCloseForm={onCloseForm}
-            onSave={onSave}
-          />
-        ) : (
-          ""
-        )}
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={onDeleteCategory}
+        >
+          Remove
+        </button>
       </td>
     </tr>
   );

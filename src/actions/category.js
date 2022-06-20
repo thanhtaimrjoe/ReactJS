@@ -1,10 +1,12 @@
 import {
   ADD_NEW_CATEGORY,
+  DELETE_CATEGORY,
   FETCH_CATEGORIES,
   UPDATE_CATEGORY,
 } from "../constants/ActionTypes";
 import {
   addNewCategory,
+  deleteCategory,
   fetchAllCategory,
   updateCategory,
 } from "../utils/firebaseAction";
@@ -47,5 +49,19 @@ export const actAddNewCategory = (newCategory) => {
   return {
     type: ADD_NEW_CATEGORY,
     newCategory,
+  };
+};
+
+export const actDeleteCategoryRequest = (category) => {
+  return async (dispatch) => {
+    var deletedCategory = await deleteCategory("category", category);
+    dispatch(actDeleteCategory(deletedCategory));
+  };
+};
+
+export const actDeleteCategory = (deletedCategory) => {
+  return {
+    type: DELETE_CATEGORY,
+    deletedCategory,
   };
 };

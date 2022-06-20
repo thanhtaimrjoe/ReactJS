@@ -2,6 +2,7 @@ import { app } from "./firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   getFirestore,
@@ -143,6 +144,18 @@ export async function addNewCategory(collectionName, category, file) {
   const imageURL = await uploadImageToStorage(file);
   category.image = imageURL;
   const ref = collection(db, collectionName);
-  await addDoc(ref, category);
+  const docRef = await addDoc(ref, category);
+  category.docID = docRef.id;
+  return category;
+}
+
+export async function deleteCategory(collectionName, category) {
+  const db = getFirestore(app);
+  //delete old image from storage
+  deleteImageFromStorage(category.image);
+
+  //delete doc from firestore
+  const ref = doc(db, collectionName, category.docID);
+  await deleteDoc(ref, category);
   return category;
 }

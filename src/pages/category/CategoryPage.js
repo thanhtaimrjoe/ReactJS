@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Menu from "../../components/menu/Menu";
 import {
   actAddNewCategoryRequest,
+  actDeleteCategoryRequest,
   actFetchCategoriesRequest,
   actUpdateCategoryRequest,
 } from "../../actions/category";
@@ -13,22 +14,55 @@ import CategoryModal from "../../components/modal/CategoryModal";
 function CategoryPage(props) {
   //state
   const [showModal, setShowModal] = useState(false);
+  const [categoryInfo, setCategoryInfo] = useState();
 
   //redux
   const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
+  //fetch
   const fetchCategories = () => dispatch(actFetchCategoriesRequest());
+  //update
   const updateCategory = (category, file) =>
     dispatch(actUpdateCategoryRequest(category, file));
+  //add new
   const addNewCategory = (category, file) =>
     dispatch(actAddNewCategoryRequest(category, file));
+  //delete
+  const deleteCategory = (category) =>
+    dispatch(actDeleteCategoryRequest(category));
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
-  const onEditCategoryInfo = (category, file) => {
-    updateCategory(category, file);
+  const onShowCategoryInfo = (category) => {
+    setCategoryInfo(category);
+    setShowModal(true);
+  };
+
+  const onShowCategoryDialog = () => {
+    setCategoryInfo(null);
+    setShowModal(true);
+  };
+
+  const onCloseForm = () => {
+    setShowModal(false);
+  };
+
+  const onSave = (category, file) => {
+    if (categoryInfo) {
+      updateCategory(category, file);
+    } else {
+      addNewCategory(category, file);
+    }
+    setShowModal(false);
+  };
+
+  //delete category from table
+  const onDeleteCategory = (category) => {
+    if (window.confirm("Are you sure you want delete?")) {
+      deleteCategory(category);
+    }
   };
 
   const showCategories = () => {
@@ -40,25 +74,13 @@ function CategoryPage(props) {
             key={index}
             index={index}
             category={category}
-            onEditCategoryInfo={onEditCategoryInfo}
+            onShowCategoryInfo={onShowCategoryInfo}
+            onDeleteCategory={onDeleteCategory}
           />
         );
       });
     }
     return result;
-  };
-
-  const onShowCategoryDialog = () => {
-    setShowModal(true);
-  };
-
-  const onCloseForm = () => {
-    setShowModal(false);
-  };
-
-  const onSave = (category, file) => {
-    addNewCategory(category, file);
-    setShowModal(false);
   };
 
   return (
@@ -77,7 +99,11 @@ function CategoryPage(props) {
         </div>
       </div>
       {showModal ? (
-        <CategoryModal onCloseForm={onCloseForm} onSave={onSave} />
+        <CategoryModal
+          categoryInfo={categoryInfo}
+          onCloseForm={onCloseForm}
+          onSave={onSave}
+        />
       ) : (
         ""
       )}
